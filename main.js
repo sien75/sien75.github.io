@@ -30,7 +30,7 @@ let app = new Vue({
           Features:<br>\
           Multi viewport edit.<br>\
           Upload/download music files.<br>\
-          <a href="https://sien75.github.io/musicmaker/Arranger">Have a try!</a>\
+          <a href="https://sien75.github.io/musicmaker/arranger">Have a try!</a>\
           '
       },
       {
@@ -39,7 +39,7 @@ let app = new Vue({
           `Student, living in Nanjing, China.<br>\
           Looking for job.<br>\
           <a href="https://www.github.com/sien75">Github</a><br>\
-          <a href="mailTo:smooooooe@hotmail.com">Email</a><br>\
+          email:<a href="mailTo:smooooooe@hotmail.com">smooooooe@hotmail.com</a><br>\
           `
       }
     ],

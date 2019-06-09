@@ -2,6 +2,7 @@
 This is the repository of my [home page](https://sien75.github.io).
 ## Usage
 If you want to use this model for your website, here is the steps:
+
 Introduce vue.min.js file and the drawPage.js file like this
 ```
 <script src="https://cdn.bootcss.com/vue/2.6.10/vue.js"></script>
@@ -52,3 +53,4 @@ window.onresize = function () {
   };
 }
 ```
+The web page performs well on Chrome(Windows & Android) and Safari(iOS).
