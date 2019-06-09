@@ -2,10 +2,20 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <title></title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>sien75 Home Page</title>
   </head>
-  <body>
-
-  <script type="text/javascript" src="main.js"></script>
+  <body style="margin: 0">
+    <div id="app">
+      <draw-page
+      :size="size"
+      :colors="colors"
+      :main-btn-infos="mainBtnInfos"
+      >
+      </draw-page>  
+    </div>
+    <script src="https://cdn.bootcss.com/vue/2.6.10/vue.js"></script>
+    <script src="./drawPage.js"></script>
+    <script src="./main.js"></script>
   </body>
 </html>
