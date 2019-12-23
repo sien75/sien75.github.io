@@ -1,17 +1,17 @@
 ## Introduction
-This is the repository of my [home page](https://sien75.github.io).
+This is the repository of my [home page](https://sien75.github.io).   
+[中文版](https://gitee.com/sien75/home)
 ## Usage
 If you want to use this model for your website, here is the steps:
 
-Introduce vue.min.js file and the drawPage.js file like this
+Introduce vue.min.js file from cdn or local. Introduce the drawPage.js file to get the "draw-page" component.
 ```
-<script src="https://cdn.bootcss.com/vue/2.6.10/vue.js"></script>
+<script src="https://cdn.bootcss.com/vue/2.6.10/vue.min.js"></script>
 <script src="./drawPage.js"></script>
 ```
 Then write in your own html file like this
 ```
-<div id="app">
-    <draw-page
+<draw-page
     :size="size"
     :colors="colors"
     :main-btn-infos="mainBtnInfos"
@@ -42,7 +42,7 @@ let app = new Vue({
   },
 })
 ```
-Just set proper colors(2 at least) and mainBtnInfos.
+What you should do is setting 3 colors and mainBtnInfos. The "content" part supports html format.   
 Make sure include codes below to adapt the change of window size.
 ```
 window.onresize = function () {

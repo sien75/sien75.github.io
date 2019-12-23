@@ -56,8 +56,7 @@ Vue.component('draw-page', {
             required: true,
             validator: infos => infos.every(info =>
                 info.hasOwnProperty('mainText') &&
-                info.hasOwnProperty('content') &&
-                info.mainText.length < 10
+                info.hasOwnProperty('content')
             ) && infos.length > 0
         }
     },
