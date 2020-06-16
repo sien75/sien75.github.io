@@ -7,15 +7,15 @@ let app = new Vue({
       devicePixelRatio: window.devicePixelRatio
     },
     colors: [
-      'rgb(248, 204, 174)',
-      'rgb(239, 69, 102)',
-      'rgb(131, 174, 155)',
+      '#2ecc71',
+      '#34495e',
+      '#3498db',
     ],
     mainBtnInfos: [
       {
         mainText: 'LivePlay',
         content: `
-          The MusicMaker LivePlay is a web app to playing keyboard instruments.<br>
+          The MusicMaker LivePlay is a web app to play keyboard instruments.<br>
           Features:<br>
           Instrument change<br>
           Octive change<br>
@@ -49,7 +49,7 @@ let app = new Vue({
         content: `
           Student, living in Nanjing, China.<br>\
           <a href="https://www.github.com/sien75">Github</a><br>\
-          email:<a href="mailTo:smooooooe@hotmail.com">smooooooe@hotmail.com</a><br>\
+          email:<a href="mailTo:sien75@icloud.com">sien75@icloud.com</a><br>\
         `
       }
     ],

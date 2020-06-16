@@ -67,11 +67,14 @@ Vue.component('draw-page', {
             ctx2: null,
             curColorIndex: 2,
             content: null,
+            contentColor: 'white',
+            contentMaxR: 0,
+            currentMainBtnIndex: 0,
             state: {
                 loading: false,
                 inWhichThemeBtn: -1,
                 inWhichMainBtn: -1,
-                showingContent: false
+                showingContent: false,
             }
         }
     },
@@ -108,14 +111,14 @@ Vue.component('draw-page', {
         style_content () {
             return {
                 position: 'absolute',
-                zIndex: '2',
+                zIndex: '3',
                 left: '10%',
                 top: '15%',
                 width: '80%',
                 height: '80%',
                 display: this.state.showingContent ? 'block' : 'none',
                 textAlign: 'center',
-                color: 'white',
+                color: this.contentColor,
                 fontFamily: 'Lucida Console',
                 fontWeight: '100',
                 lineHeight: '25px'
@@ -317,30 +320,37 @@ Vue.component('draw-page', {
         },
         click (e) {
             if(this.state.loading) return;
+            let mainBtnIndex = this.ifInMainBtn(e.layerX * this.dpi, e.layerY * this.dpi);
+            let themeBtnIndex = this.ifInThemeBtn(e.layerX * this.dpi, e.layerY * this.dpi);
             if(this.state.showingContent) {
-                //if(ifInCloseBtn(e.layerX * this.dpi, e.layerY * this.dpi)) this.hideContent();
-                if(true) this.hideContent();
+                if(themeBtnIndex[0] == 0) this.hideContent(this.currentMainBtnIndex);
             }
             else {
-                let mainBtnIndex = this.ifInMainBtn(e.layerX * this.dpi, e.layerY * this.dpi);
-                let themeBtnIndex = this.ifInThemeBtn(e.layerX * this.dpi, e.layerY * this.dpi);
-                if(mainBtnIndex >= 0) this.showContent(mainBtnIndex);
+                if(mainBtnIndex >= 0) {
+                    this.showContent(mainBtnIndex);
+                    this.currentMainBtnIndex = mainBtnIndex;
+                }
                 else if(themeBtnIndex[0] >= 0) this.curColorIndex = themeBtnIndex[1];
             }
         },
         move (e) {
             if(this.state.loading) return;
-            if(this.state.showingContent) return;
             let x = e.layerX * this.dpi;
             let y = e.layerY * this.dpi;
             let i0 = this.ifInMainBtn(x, y);
             let i1 = this.ifInThemeBtn(x, y);
             let t0 = this.state.inWhichMainBtn;
             let t1 = this.state.inWhichThemeBtn;
-            if(t0 >= 0 && i0 < 0) this.restoreMainBtn(t0);
-            else if(t1 >= 0 && i1[0] < 0) this.restoreThemeBtn(t1);
-            else if(t0 < 0 && i0 >= 0) this.hoverMainBtn(i0);
-            else if(t1 < 0 && i1[0] >= 0) this.hoverThemeBtn(i1);
+            if(this.state.showingContent) {
+                if(i1[0] == 0) this.hoverOperateBtn();
+                else this.restoreOperateBtn();
+            }
+            else {
+                if(t0 >= 0 && i0 < 0) this.restoreMainBtn(t0);
+                else if(t1 >= 0 && i1[0] < 0) this.restoreThemeBtn(t1);
+                else if(t0 < 0 && i0 >= 0) this.hoverMainBtn(i0);
+                else if(t1 < 0 && i1[0] >= 0) this.hoverThemeBtn(i1);
+            }
         },
         ifInMainBtn (x, y) {
             let p = this.mainBtnPos;
@@ -409,23 +419,32 @@ Vue.component('draw-page', {
         },
         showContent (i) {
             this.state.loading = true;
-            let s = this.ih;
-            let e = 0;
-            let c = s;
-            let stepValue = (e - s) * 0.08;
-            this.ctx2.fillStyle = 'rgba(100, 100, 100, 0.8)';
+            let centerX = this.mainBtnPos.cts[i].x;
+            let centerY = this.mainBtnPos.cts[i].y;
+            let minR = this.mainBtnPos.r;
+            let maxX = centerX > this.hw ? centerX : this.iw - centerX;
+            let maxY = centerY > this.hh ? centerY : this.ih - centerY;
+            let maxR = this.contentMaxR = Math.pow(maxX * maxX + maxY * maxY, 0.5);
+            let r = minR;
+            let stepValue = maxR * 0.04;
+
+            let color = this.colors[(this.curColorIndex + 1) % this.colors.length];
+            this.ctx2.fillStyle = color;
+
             let timer = window.setInterval(() => {
-                this.ctx2.clearRect(0, c, this.iw, s - c);
-                c += stepValue;
-                if((e - c) * (s - c) >= 0) c = e;
-                this.ctx2.fillRect(this.iw * 0.05, c, this.iw * 0.9, s - c);
-                if(c == e) {
+                this.ctx2.beginPath();
+                this.ctx2.arc(centerX, centerY, r, 0, 2 * Math.PI);
+                this.ctx2.arc(centerX, centerY, minR, 0, 2 * Math.PI, true);
+                this.ctx2.fill();
+                if((r += stepValue) >= maxR) {
                     window.clearInterval(timer);
-                    window.setTimeout(() => {
+                    this.ctx2.fillRect(0, 0, this.iw, this.ih);
+                    this.operateBtnFlyIn().then(() => {
                         this.content = this.mainBtnInfos[i].content;
+                        this.contentColor = this.colors[(this.curColorIndex + 2) % this.colors.length];
                         this.state.loading = false;
                         this.state.showingContent = true;
-                    }, 100);
+                    });
                 }
             }, 20);
         },
@@ -433,19 +452,82 @@ Vue.component('draw-page', {
             this.state.showingContent = false;
             this.state.loading = true;
             window.setTimeout(() => {
-                let s = this.ih;
-                let e = 0;
-                let c = s;
-                let stepValue = (e - s) * 0.08;
-                let timer = window.setInterval(() => {
-                    c += stepValue;
-                    if((e - c) * (s - c) >= 0) {
-                        window.clearInterval(timer);
-                        this.state.loading = false;
-                    }
-                    this.ctx2.clearRect(0, c, this.iw, s - c);
-                }, 20);
+                let centerX = this.mainBtnPos.cts[i].x;
+                let centerY = this.mainBtnPos.cts[i].y;
+                let minR = this.mainBtnPos.r;
+                let maxR = this.contentMaxR;
+                let r = maxR;
+                let stepValue = maxR * 0.04;
+    
+                this.ctx2.globalCompositeOperation = 'destination-out';
+    
+                    let timer = window.setInterval(() => {
+                        this.ctx2.beginPath();
+                        this.ctx2.arc(centerX, centerY, maxR, 0, 2 * Math.PI);
+                        this.ctx2.arc(centerX, centerY, r, 0, 2 * Math.PI, true);
+                        this.ctx2.fill();
+                        if(r == minR) {
+                            this.ctx2.globalCompositeOperation = 'source-over';
+                            window.clearInterval(timer);
+                            window.setTimeout(() => {
+                                this.ctx2.clearRect(0, 0, this.iw, this.ih);
+                                this.state.loading = false;
+                            }, 100);
+                        }
+                        r -= stepValue;
+                        if(r < minR) r = minR;
+                    }, 20);
             }, 100);
+        },
+        operateBtnFlyIn () {
+            return new Promise((resolve, reject) => {
+                let p = this.themeBtnPos;
+                let x = p.s;
+                let y = p.ys[0];
+                let stepValue = (p.e - p.s) * 0.12;
+                let bgRgb = this.colors[(this.curColorIndex + 1) % this.colors.length];
+                let rgb = this.colors[this.curColorIndex];
+
+                let timer = window.setInterval(() => {
+                    x += stepValue;
+                    if((x - p.s) * (x - p.e) >= 0) {
+                        x = p.e;
+                    }
+                    this.ctx2.fillStyle = bgRgb;
+                    this.ctx2.beginPath();
+                    this.ctx2.arc(x - stepValue, y, p.r + 2, 0, Math.PI * 2);
+                    this.ctx2.fill();
+                    this.ctx2.fillStyle = rgb;
+                    this.ctx2.beginPath();
+                    this.ctx2.arc(x, y, p.r, 0, Math.PI * 2);
+                    this.ctx2.fill();
+                    if(x == p.e) {
+                        window.clearInterval(timer);
+                        resolve();
+                    }
+                }, 20);
+            })
+        },
+        hoverOperateBtn () {
+            let p = this.themeBtnPos;
+            this.ctx2.strokeStyle = this.colors[(this.curColorIndex + 2) % this.colors.length];
+            this.ctx2.lineWidth = 1;
+            this.ctx2.lineCap="round";
+            this.ctx2.beginPath();
+            this.ctx2.moveTo(p.e - 0.25 * p.r, p.ys[0] - 0.25 * p.r);
+            this.ctx2.lineTo(p.e + 0.25 * p.r, p.ys[0] + 0.25 * p.r);
+            this.ctx2.stroke();
+            this.ctx2.beginPath();
+            this.ctx2.moveTo(p.e - 0.25 * p.r, p.ys[0] + 0.25 * p.r);
+            this.ctx2.lineTo(p.e + 0.25 * p.r, p.ys[0] - 0.25 * p.r);
+            this.ctx2.stroke();
+        },
+        restoreOperateBtn () {
+            let p = this.themeBtnPos;
+            this.ctx2.fillStyle = this.colors[this.curColorIndex];
+            this.ctx2.beginPath();
+            this.ctx2.arc(p.e, p.ys[0], p.r * 0.9, 0, 2 * Math.PI);
+            this.ctx2.fill();
         }
     }
 })
