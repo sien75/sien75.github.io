@@ -7,7 +7,7 @@ let app = new Vue({
       devicePixelRatio: window.devicePixelRatio
     },
     colors: [
-      '#2ecc71',
+      '#2ecc72',
       '#34495e',
       '#3498db',
     ],
