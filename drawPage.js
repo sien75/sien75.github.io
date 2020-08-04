@@ -193,8 +193,10 @@ Vue.component('draw-page', {
                     this.ctx1.fill();
                 }
                 if(this.state.showingContent) {
-                    this.ctx2.fillStyle = 'rgba(100, 100, 100, 0.8)';
-                    this.ctx2.fillRect(this.iw * 0.05, 0, this.iw * 0.9, this.ih);
+                    let color = this.colors[(this.curColorIndex + 1) % this.colors.length];
+                    this.ctx2.fillStyle = color;
+                    this.ctx2.fillRect(0, 0, this.iw, this.ih);
+                    this.content = this.mainBtnInfos[i].content;
                 }
        }, 100);
         }
