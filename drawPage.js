@@ -196,7 +196,7 @@ Vue.component('draw-page', {
                     let color = this.colors[(this.curColorIndex + 1) % this.colors.length];
                     this.ctx2.fillStyle = color;
                     this.ctx2.fillRect(0, 0, this.iw, this.ih);
-                    this.content = this.mainBtnInfos[i].content;
+                    this.content = this.mainBtnInfos[this.currentMainBtnIndex].content;
                 }
        }, 100);
         }
