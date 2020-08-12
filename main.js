@@ -1,20 +1,16 @@
 let infos = {};
 infos.English = [
   {
-    mainText: 'LivePlay',
+    mainText: 'MusicMaker',
     content: `
-      The MusicMaker LivePlay is a web app to play keyboard instruments.<br>
+      The <b>MusicMaker-LivePlay</b> is a web app to play keyboard instruments.<br>
       Features:<br>
       Instrument change<br>
       Octive change<br>
       Play with keyboard<br>
       <a href="https://sien75.github.io/musicmaker/liveplay">Have a try!</a>
-    `
-  },
-  {
-    mainText: 'Arranger',
-    content: `
-      The MusicMaker Arranger is a web app to make simple musics.<br>
+      <br><br>
+      The <b>MusicMaker-Arranger</b> is a web app to make simple musics.<br>
       (Unfinished)<br>
       Features:<br>
       Multi viewport edit.<br>
@@ -25,11 +21,18 @@ infos.English = [
   {
     mainText: 'R-W',
     content: `
-      Random-Wallpaper is a desktop application, which can randomly get images and change your wallpaper.<br>
+      <b>Random-Wallpaper</b> is a desktop application, which can randomly get images and change your wallpaper.<br>
       Features:<br>
       Support Windows and Linux.<br>
       Multi sources.<br>
       <a href="https://github.com/sien75/random-wallpaper">Have a try!</a>
+    `
+  },
+  {
+    mainText: 'Blog',
+    content: `
+      This is my tech blog mainly about front-end, including some summaries and tips<br>
+      <a href="https://sien75.github.io/blog">Take a look!</a>
     `
   },
   {
@@ -43,20 +46,16 @@ infos.English = [
 ]
 infos['中文'] = [
   {
-    mainText: 'LivePlay',
+    mainText: 'MusicMaker',
     content: `
-      MusicMaker-LivePlay是一个可以演奏键盘类乐器的Web程序<br>
+      <b>MusicMaker-LivePlay</b>是一个可以演奏键盘类乐器的Web程序<br>
       特点:<br>
       改变乐器<br>
       改变八度<br>
       可以使用键盘演奏<br>
-      <a href="https://sien75.github.io/musicmaker/liveplay">尝试一下!</a>\
-    `
-  },
-  {
-    mainText: 'Arranger',
-    content: `
-      MusicMaker-Arranger是一个可以制作简单音乐的Web程序<br>
+      <a href="https://sien75.github.io/musicmaker/liveplay">尝试一下!</a>
+      <br><br>
+      <b>MusicMaker-Arranger</b>是一个可以制作简单音乐的Web程序<br>
       (未完成)<br>
       特点:<br>
       多视窗编辑<br>
@@ -65,9 +64,9 @@ infos['中文'] = [
     `
   },
   {
-    mainText: 'R-W',
+    mainText: '随机壁纸',
     content: `
-      Random-Wallpaper是一款可以随机获得图片并把图片设置为桌面壁纸的电脑软件<br>
+      <b>随机壁纸</b>是一款可以随机获得图片并把图片设置为桌面壁纸的电脑软件<br>
       特点:<br>
       支持Windows和Linux<br>
       多图片源<br>
@@ -75,7 +74,14 @@ infos['中文'] = [
     `
   },
   {
-    mainText: 'about',
+    mainText: '博客',
+    content: `
+      这是我的技术博客，主要和前端有关，包括知识点总结和小技巧两个部分<br>
+      <a href="https://sien75.github.io/blog">看一看吧!</a>
+      `
+  },
+  {
+    mainText: '关于',
     content: `
       大学生,就读于南京市东南大学<br>
       <a href="https://www.github.com/sien75">Github</a><br>
