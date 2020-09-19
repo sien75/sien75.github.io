@@ -35,7 +35,6 @@ infos.English = [
       <a href="https://sien75.github.io/blog">Take a look!</a><br><br>
       Many times we don't need a long essay, but just search the Internet for specific questions.<br>
       So I'll put my tips on juejin.im and others can find and use it.<br>
-      These tips are basically taken from the summary in the blog above.<br>
       <a href="https://juejin.im/">My Juejin Homepage</a>
     `
   },
@@ -83,9 +82,8 @@ infos['中文'] = [
       这是我的技术博客，主要和前端有关，包括一些知识点总结<br>
       <a href="https://sien75.github.io/blog">看一看吧!</a><br><br>
       许多时候我们并不需要长篇大论，而仅仅是会在网上搜索具体的问题。<br>
-      所以我会把具体的小知识放在掘金上，以便于被其他人搜索并且使用到。<br>
-      这些小知识基本是从我的博客中的总结里面摘抄出来的。<br>
-      <a href="https://juejin.im/">我的掘金主页</a>
+      所以我会把能够对大家有用的小知识取出来，再放在掘金上，以便于被搜索并且使用到。<br>
+      <a href="https://juejin.im/user/3218971592767549">我的掘金主页</a>
       `
   },
   {
